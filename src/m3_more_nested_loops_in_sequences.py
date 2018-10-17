@@ -78,31 +78,32 @@ def largest_number(seq_seq):
     where each subsequence contains only numbers.
     """
     # ------------------------------------------------------------------
-    # TODO: 3. Implement and test this function.
+    # D: 3. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     # ------------------------------------------------------------------
-
-
-
-    '''
+    # find first int
+    maxm = 1.111
     for i in range(len(seq_seq)):
-        if len(seq_seq[i]) == 1:
-            maxm = seq_seq[0]
-        else:
-            maxm = seq_seq[0][0]
         for j in range(len(seq_seq[i])):
-            if seq_seq[i][j] > maxm:
+            if type(seq_seq[i][j]) is int:
                 maxm = seq_seq[i][j]
-    if type(maxm) is int:
-        return maxm
-    else:
+    if type(maxm) is not int:
         return None
-    '''
+    else:
+        # find the maximum
+        for i in range(len(seq_seq)):
+            for j in range(len(seq_seq[i])):
+                if seq_seq[i][j] > maxm and type(seq_seq[i][j]) is int:
+                    maxm = seq_seq[i][j]
+        return maxm
+
+    # FIXME MAXM=1,111 trick
+
 
 def run_test_largest_negative_number():
     """ Tests the    largest_negative_number    function. """
     # ------------------------------------------------------------------
-    # TODO: 4. Implement this TEST function.
+    # D: 4. Implement this TEST function.
     #   It TESTS the  largest_negative_number  function defined below.
     #
     #   Include enough tests to give you confidence that your solution
@@ -112,7 +113,30 @@ def run_test_largest_negative_number():
     print('-------------------------------------------------')
     print('Testing the   LARGEST_NEGATIVE_NUMBER   function:')
     print('-------------------------------------------------')
+    # Test 1:
+    expected = -10
+    answer = largest_number([(3, 1, 4),
+                             (13, -10, 11, 7, 10),
+                             [1, 2, 3, 4]])
+    print('Expected and actual are:', expected, answer)
 
+    # Test 2:
+    expected = -1111111111111111
+    answer = largest_number(([], [-1111111111111111], []))
+    print('Expected and actual are:', expected, answer)
+
+    # Test 3:
+    expected = None
+    answer = largest_number(([], [], []))
+    print('Expected and actual are:', expected, answer)
+
+    # TO DO 2 (continued): Add your ADDITIONAL test(s) here:
+    # Test 4:
+    expected = -3
+    answer = largest_number([(),
+                             (-3, 28, 11, -7, 10),
+                             [1, 2, 3, -4]])
+    print('Expected and actual are:', expected, answer)
 
 def largest_negative_number(seq_seq):
     """
@@ -144,7 +168,19 @@ def largest_negative_number(seq_seq):
     #   being constructed (so the SPACE allowed is limited to the
     #   give sequence of sequences plus any non-list variables you want).
     # ------------------------------------------------------------------
+    maxm = 0
+    for i in range(len(seq_seq)):
+        for j in range(len(seq_seq[i])):
+            if type(seq_seq[i][j]) is int or type(seq_seq[i][j]) is float:
+                if seq_seq[i][j] < maxm:
+                    maxm = seq_seq[i][j]
 
+    if type(maxm) is int or type(maxm) is float:
+        return maxm
+    else:
+        return None
+
+    # FIXME NOT WORKING
 
 def run_test_first_is_elsewhere_too():
     """ Tests the    first_is_elsewhere_too    function. """
