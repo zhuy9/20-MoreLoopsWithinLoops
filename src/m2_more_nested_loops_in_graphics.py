@@ -3,8 +3,8 @@ This project demonstrates NESTED LOOPS (i.e., loops within loops)
 in the context of TWO-DIMENSIONAL GRAPHICS.
 
 Authors: David Mutchler, Valerie Galluzzi, Mark Hays, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         their colleagues and Yuchen Zhu DARREN
+"""  # D: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import rosegraphics as rg
 
@@ -49,9 +49,28 @@ def draw_upside_down_wall(rectangle, n, window):
     and n is nonnegative.
     """
     # ------------------------------------------------------------------
-    # TODO: 2. Implement and test this function.
+    # D: 2. Implement and test this function.
     #     Some tests are already written for you (above).
     # ------------------------------------------------------------------
+    # move the rectangle to upper-left
+    length = abs(rectangle.corner_2.x - rectangle.corner_1.x)
+    width = abs(rectangle.corner_1.y - rectangle.corner_2.y)
+    rectangle.corner_1.x -= ((n-1) / 2 * length)
+    rectangle.corner_2.x -= ((n-1) / 2 * length)
+    rectangle.corner_2.y -= ((n-1) * width)
+    rectangle.corner_1.y -= ((n-1) * width)
+    # loops within loops
+    for i in range(n):
+        for j in range(n-i):
+            new_rect = rg.Rectangle(rectangle.corner_1, rectangle.corner_2)
+            new_rect.attach_to(window)
+            window.render()
+            rectangle.corner_1.x += length
+            rectangle.corner_2.x += length
+        rectangle.corner_2.y += width
+        rectangle.corner_1.y += width
+        rectangle.corner_2.x -= ( (n-i-1) * length + 0.5 * length )
+        rectangle.corner_1.x -= ( (n-i-1) * length + 0.5 * length )
 
 
 # ----------------------------------------------------------------------
