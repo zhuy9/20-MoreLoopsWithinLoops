@@ -82,12 +82,12 @@ def largest_number(seq_seq):
     #   Note that you should write its TEST function first (above).
     # ------------------------------------------------------------------
     # find first int
-    maxm = 1.111
+    maxm = None
     for i in range(len(seq_seq)):
         for j in range(len(seq_seq[i])):
             if type(seq_seq[i][j]) is int:
                 maxm = seq_seq[i][j]
-    if type(maxm) is not int:
+    if type(maxm) is not int and type(maxm) is not float:
         return None
     else:
         # find the maximum
@@ -96,8 +96,6 @@ def largest_number(seq_seq):
                 if seq_seq[i][j] > maxm and type(seq_seq[i][j]) is int:
                     maxm = seq_seq[i][j]
         return maxm
-
-    # FIXME MAXM=1,111 trick
 
 
 def run_test_largest_negative_number():
@@ -115,25 +113,25 @@ def run_test_largest_negative_number():
     print('-------------------------------------------------')
     # Test 1:
     expected = -10
-    answer = largest_number([(3, 1, 4),
+    answer = largest_negative_number([(3, 1, 4),
                              (13, -10, 11, 7, 10),
                              [1, 2, 3, 4]])
     print('Expected and actual are:', expected, answer)
 
     # Test 2:
     expected = -1111111111111111
-    answer = largest_number(([], [-1111111111111111], []))
+    answer = largest_negative_number(([], [-1111111111111111], []))
     print('Expected and actual are:', expected, answer)
 
     # Test 3:
     expected = None
-    answer = largest_number(([], [], []))
+    answer = largest_negative_number(([], [], []))
     print('Expected and actual are:', expected, answer)
 
     # TO DO 2 (continued): Add your ADDITIONAL test(s) here:
     # Test 4:
     expected = -3
-    answer = largest_number([(),
+    answer = largest_negative_number([(),
                              (-3, 28, 11, -7, 10),
                              [1, 2, 3, -4]])
     print('Expected and actual are:', expected, answer)
@@ -161,26 +159,34 @@ def largest_negative_number(seq_seq):
     where each subsequence contains only numbers.
     """
     # ------------------------------------------------------------------
-    # TODO: 5. Implement and test this function.
+    # D: 5. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     #
     # CHALLENGE: Try to solve this problem with no additional sequences
     #   being constructed (so the SPACE allowed is limited to the
     #   give sequence of sequences plus any non-list variables you want).
     # ------------------------------------------------------------------
+    # find first -ve num
     maxm = 0
     for i in range(len(seq_seq)):
         for j in range(len(seq_seq[i])):
             if type(seq_seq[i][j]) is int or type(seq_seq[i][j]) is float:
-                if seq_seq[i][j] < maxm:
+                if seq_seq[i][j] < 0:
                     maxm = seq_seq[i][j]
 
-    if type(maxm) is int or type(maxm) is float:
-        return maxm
-    else:
-        return None
+    # find greatest -ve num
+    for i in range(len(seq_seq)):
+        for j in range(len(seq_seq[i])):
+            if type(seq_seq[i][j]) is int or type(seq_seq[i][j]) is float:
+                if seq_seq[i][j] < 0 and seq_seq[i][j] > maxm:
+                    maxm = seq_seq[i][j]
 
-    # FIXME NOT WORKING
+    if maxm == 0:
+        return None
+    else:
+        return maxm
+
+
 
 def run_test_first_is_elsewhere_too():
     """ Tests the    first_is_elsewhere_too    function. """
@@ -413,7 +419,7 @@ def first_is_elsewhere_too(seq_seq):
     and the given argument is a sequence of sequences.
     """
     # ------------------------------------------------------------------
-    # TODO: 6. Implement and test this function.
+    # D: 6. Implement and test this function.
     #          Some tests are already written for you (above).
     #
     # IMPLEMENTATION RESTRICTION:
@@ -428,6 +434,15 @@ def first_is_elsewhere_too(seq_seq):
     #   in this problem, as doing so would defeat the goal of providing
     #   practice at loops within loops (within loops within ...)
     # ------------------------------------------------------------------
+    if seq_seq[0] == [] or seq_seq[0] == ():
+        return  False
+    else:
+        for i in range(1, len(seq_seq)):
+            for j in range(len(seq_seq[i])):
+                for k in range(len(seq_seq[0])):
+                    if seq_seq[0][k] == seq_seq[i][j]:
+                        return True
+        return False
 
 
 # ----------------------------------------------------------------------
